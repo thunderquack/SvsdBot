@@ -1,9 +1,11 @@
-﻿namespace SvsdBot
+﻿using Telegram.Bot;
+
+namespace SvsdBot
 {
     /// <summary>
     /// Entry point.
     /// </summary>
-    public static class Program
+    public class Program
     {
         /// <summary>
         /// Main entry point.
@@ -11,7 +13,8 @@
         /// <param name="args">Command line arguments.</param>
         public static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            TelegramBotClient client = new (File.ReadAllText("apikey.txt"));
+            Console.WriteLine(client.GetMeAsync().Result);
         }
     }
 }
