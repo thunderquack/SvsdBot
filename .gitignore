@@ -261,3 +261,4 @@ __pycache__/
 *.pyc
 /SvsdBot/apikey.txt
 /SvsdBot/appsettings.Development.json
+/SvsdBot.lutconfig
