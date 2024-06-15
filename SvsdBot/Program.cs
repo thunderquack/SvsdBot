@@ -1,20 +1,28 @@
-﻿using Telegram.Bot;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using SvsdBot;
 
-namespace SvsdBot
-{
-    /// <summary>
-    /// Entry point.
-    /// </summary>
-    public class Program
+IHost host = Host.CreateDefaultBuilder(args)
+    .ConfigureAppConfiguration((context, config) =>
     {
-        /// <summary>
-        /// Main entry point.
-        /// </summary>
-        /// <param name="args">Command line arguments.</param>
-        public static void Main(string[] args)
-        {
-            TelegramBotClient client = new (File.ReadAllText("apikey.txt"));
-            Console.WriteLine(client.GetMeAsync().Result);
-        }
-    }
-}
+        var env = context.HostingEnvironment;
+        config.SetBasePath(Directory.GetCurrentDirectory());
+        config.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+              .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true);
+        config.AddEnvironmentVariables();
+    })
+    .ConfigureServices((context, services) =>
+    {
+        services.Configure<BotConfiguration>(context.Configuration.GetSection("BotConfiguration"));
+        services.AddHostedService<BotHostedService>();
+    })
+    .ConfigureLogging(logging =>
+    {
+        logging.ClearProviders();
+        logging.AddConsole();
+    })
+    .Build();
+
+await host.RunAsync();
