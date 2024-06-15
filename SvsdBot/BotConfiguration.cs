@@ -8,6 +8,6 @@
         /// <summary>
         /// Gets or sets the token.
         /// </summary>
-        public string BotToken { get; set; }
+        public string BotToken { get; set; } = string.Empty;
     }
 }
