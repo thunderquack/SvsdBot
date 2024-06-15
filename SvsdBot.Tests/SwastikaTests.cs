@@ -1,7 +1,7 @@
 ﻿namespace SvsdBot.Tests
 {
     [TestClass]
-    public class SvastikaTests
+    public class SwastikaTests
     {
         [TestMethod]
         public void TooShortSvastikaTest()
