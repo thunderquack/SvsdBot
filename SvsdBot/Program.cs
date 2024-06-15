@@ -30,7 +30,6 @@ namespace SvsdBot
             Host.CreateDefaultBuilder(args)
                 .ConfigureAppConfiguration((context, config) =>
                 {
-                    var env = context.HostingEnvironment;
                     config.SetBasePath(Directory.GetCurrentDirectory());
                     config.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                           .AddJsonFile($"appsettings.Development.json", optional: true, reloadOnChange: true);
