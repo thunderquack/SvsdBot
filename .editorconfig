@@ -23,6 +23,8 @@ csharp_style_expression_bodied_local_functions = false:silent
 csharp_indent_labels = one_less_than_current
 csharp_style_allow_embedded_statements_on_same_line_experimental = true:silent
 dotnet_diagnostic.SA1009.severity = none
+dotnet_diagnostic.SA1101.severity = none
+dotnet_diagnostic.S2629.severity = none
 
 [*.{cs,vb}]
 #### Naming styles ####

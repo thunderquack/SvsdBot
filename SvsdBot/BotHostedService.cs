@@ -5,6 +5,7 @@ using Telegram.Bot;
 using Telegram.Bot.Polling;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
+using Telegram.Bot.Types.InlineQueryResults;
 
 namespace SvsdBot
 {
@@ -15,6 +16,7 @@ namespace SvsdBot
     {
         private readonly ILogger<BotHostedService> logger = logger;
         private readonly BotConfiguration botConfig = botConfig.Value;
+        private readonly BotTextGenerator botTextGenerator = new();
         private ITelegramBotClient botClient;
 
         /// <summary>
@@ -29,6 +31,7 @@ namespace SvsdBot
             var receiverOptions = new ReceiverOptions
             {
                 AllowedUpdates = Array.Empty<UpdateType>(),
+                ThrowPendingUpdates = true,
             };
 
             this.botClient.StartReceiving(
@@ -68,12 +71,31 @@ namespace SvsdBot
                 var chatId = update.Message.Chat.Id;
                 var messageText = update.Message.Text;
 
-                this.logger.LogInformation($"Received a '{messageText}' message in chat {chatId}.");
+                logger.LogInformation($"Received a '{messageText}' message in chat {chatId}.");
+            }
 
-                await botClient.SendTextMessageAsync(
-                    chatId: chatId,
-                    text: "You said:\n" + messageText,
-                    cancellationToken: cancellationToken);
+            if (update.Type == UpdateType.InlineQuery)
+            {
+                string messageText = update.InlineQuery!.Query;
+                string id = update.InlineQuery!.Id;
+                logger.LogInformation($"Received inline query with {id} and {messageText}");
+                string result = botTextGenerator.GetSwastika(messageText);
+                if (!string.IsNullOrWhiteSpace(result))
+                {
+                    InlineQueryResult[] results = {
+                    new InlineQueryResultArticle(
+                        id: "1",
+                        title: "Make swaston",
+                        new InputTextMessageContent($"<code>{result}</code>")
+                        {
+                            ParseMode = ParseMode.Html,
+                        })
+                        {
+                            Description = "Make swaston from words",
+                        },
+                };
+                    await botClient.AnswerInlineQueryAsync(id, results, cancellationToken: cancellationToken);
+                }
             }
         }
 
@@ -86,7 +108,7 @@ namespace SvsdBot
         /// <returns>Task.</returns>
         public Task HandleErrorAsync(ITelegramBotClient botClient, Exception exception, CancellationToken cancellationToken)
         {
-            this.logger.LogError(exception, "Error received from Telegram Bot");
+            logger.LogError(exception, "Error received from Telegram Bot");
             return Task.CompletedTask;
         }
     }
