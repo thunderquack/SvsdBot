@@ -8,7 +8,7 @@ namespace SvsdBot
         {
             word = word.ToUpper();
             int n = word.Length;
-            if (n < 4)
+            if (n < 3)
             {
                 return string.Empty;
             }
