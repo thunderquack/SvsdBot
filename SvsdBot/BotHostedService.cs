@@ -54,7 +54,14 @@ namespace SvsdBot
             return Task.CompletedTask;
         }
 
-        private async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
+        /// <summary>
+        /// Handles and update.
+        /// </summary>
+        /// <param name="botClient">Reference to the bot client.</param>
+        /// <param name="update">Update.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <returns>Task.</returns>
+        public async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
         {
             if (update.Type == UpdateType.Message && update.Message!.Type == MessageType.Text)
             {
@@ -77,7 +84,7 @@ namespace SvsdBot
         /// <param name="exception">Exception.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <returns>Task.</returns>
-        private Task HandleErrorAsync(ITelegramBotClient botClient, Exception exception, CancellationToken cancellationToken)
+        public Task HandleErrorAsync(ITelegramBotClient botClient, Exception exception, CancellationToken cancellationToken)
         {
             this.logger.LogError(exception, "Error received from Telegram Bot");
             return Task.CompletedTask;
