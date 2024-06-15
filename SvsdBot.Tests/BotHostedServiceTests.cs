@@ -3,7 +3,6 @@ using Microsoft.Extensions.Options;
 using Moq;
 using Telegram.Bot;
 using Telegram.Bot.Types;
-using LogLevel = Microsoft.Extensions.Logging.LogLevel;
 
 namespace SvsdBot.Tests
 {
