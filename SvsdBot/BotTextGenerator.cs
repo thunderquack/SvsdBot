@@ -7,7 +7,7 @@ namespace SvsdBot
     /// </summary>
     public class BotTextGenerator
     {
-        private const int CHARACTERS_LIMIT = 35;
+        private const int CHARACTERS_LIMIT = 25;
 
         /// <summary>
         /// Returns swaston.
