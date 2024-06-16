@@ -83,18 +83,19 @@ namespace SvsdBot
                     string result = botTextGenerator.GetSwastika(messageText);
                     if (!string.IsNullOrWhiteSpace(result))
                     {
-                        InlineQueryResult[] results = {
-                    new InlineQueryResultArticle(
-                        id: "1",
-                        title: "Make swaston",
-                        new InputTextMessageContent($"<code>{result}</code>")
+                        InlineQueryResult[] results =
                         {
-                            ParseMode = ParseMode.Html,
-                        })
-                    {
-                        Description = "Make swaston from words",
-                    },
-                };
+                            new InlineQueryResultArticle(
+                                id: "1",
+                                title: "Make swaston",
+                                new InputTextMessageContent($"<code>{result}</code>")
+                                {
+                                    ParseMode = ParseMode.Html,
+                                })
+                            {
+                                Description = "Make swaston from words",
+                            },
+                        };
 
                         await botClient.AnswerInlineQueryAsync(id, results, cancellationToken: cancellationToken);
                     }
