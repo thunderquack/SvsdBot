@@ -87,7 +87,7 @@ namespace SvsdBot
                         {
                             new InlineQueryResultArticle(
                                 id: "1",
-                                title: "Make swaston",
+                                title: "Swaston",
                                 new InputTextMessageContent($"<code>{result}</code>")
                                 {
                                     ParseMode = ParseMode.Html,
