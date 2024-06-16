@@ -2,8 +2,18 @@
 
 namespace SvsdBot
 {
+    /// <summary>
+    /// Generates swastons an possibly other things.
+    /// </summary>
     public class BotTextGenerator
     {
+        private const int CHARACTERS_LIMIT = 35;
+
+        /// <summary>
+        /// Returns swaston.
+        /// </summary>
+        /// <param name="word">Input word.</param>
+        /// <returns>Word in the swaston form. Or <c>empty string</c> if swaston creation is impossible.</returns>
         public string GetSwastika(string word)
         {
             word = word.ToUpper();
@@ -13,10 +23,10 @@ namespace SvsdBot
                 return string.Empty;
             }
 
-            if (n > 50)
+            if (n > CHARACTERS_LIMIT)
             {
-                word = word[0..50];
-                n = 50;
+                word = word[0..CHARACTERS_LIMIT];
+                n = CHARACTERS_LIMIT;
             }
 
             int size = (2 * n) - 1;
