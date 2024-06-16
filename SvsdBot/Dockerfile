@@ -1,15 +1,13 @@
-FROM centos:9
+FROM ubuntu:24.04
 
-RUN yum update -y
+RUN apt update -y
 
-RUN yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
+RUN apt upgrade -y
 
-RUN yum install -y mc traceroute net-tools telnet htop
+RUN apt install -y mc traceroute net-tools telnet htop
 
-RUN rpm -Uvh https://packages.microsoft.com/config/centos/9/packages-microsoft-prod.rpm
+RUN apt install -y dotnet-runtime-8.0
 
-RUN yum install -y dotnet-runtime-8.0
-
-RUN dotnet --info
+RUN apt install -y ca-certificates
 
 CMD cd /var/svsdbot && dotnet SvsdBot.dll
