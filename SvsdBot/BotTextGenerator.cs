@@ -16,6 +16,7 @@ namespace SvsdBot
         /// <returns>Word in the swaston form. Or <c>empty string</c> if swaston creation is impossible.</returns>
         public string GetSwastika(string word)
         {
+            word = word.Split(" ").Last();
             word = word.ToUpper();
             int n = word.Length;
             if (n < 3)
@@ -41,14 +42,14 @@ namespace SvsdBot
                 }
             }
 
-            // Top-left to bottom-left
+            // Top-left to bottom-right
             for (int i = 0; i < n; i++)
             {
                 swastika[i, 0] = word[i];
                 swastika[size - i - 1, size - 1] = word[i];
             }
 
-            // Top-left to top-right
+            // Top-right to bottom-left
             for (int i = 0; i < n; i++)
             {
                 swastika[0, size - i - 1] = word[i];
