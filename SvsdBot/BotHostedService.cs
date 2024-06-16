@@ -38,8 +38,7 @@ namespace SvsdBot
                 this.HandleUpdateAsync,
                 this.HandleErrorAsync,
                 receiverOptions,
-                cancellationToken
-            );
+                cancellationToken);
 
             this.logger.LogInformation("Telegram Bot started receiving messages.");
 
@@ -66,23 +65,25 @@ namespace SvsdBot
         /// <returns>Task.</returns>
         public async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
         {
-            if (update.Type == UpdateType.Message && update.Message!.Type == MessageType.Text)
+            try
             {
-                var chatId = update.Message.Chat.Id;
-                var messageText = update.Message.Text;
-
-                logger.LogInformation($"Received a '{messageText}' message in chat {chatId}.");
-            }
-
-            if (update.Type == UpdateType.InlineQuery)
-            {
-                string messageText = update.InlineQuery!.Query;
-                string id = update.InlineQuery!.Id;
-                logger.LogInformation($"Received inline query with {id} and {messageText}");
-                string result = botTextGenerator.GetSwastika(messageText);
-                if (!string.IsNullOrWhiteSpace(result))
+                if (update.Type == UpdateType.Message && update.Message!.Type == MessageType.Text)
                 {
-                    InlineQueryResult[] results = {
+                    var chatId = update.Message.Chat.Id;
+                    var messageText = update.Message.Text;
+
+                    logger.LogInformation($"Received a '{messageText}' message in chat {chatId}.");
+                }
+
+                if (update.Type == UpdateType.InlineQuery)
+                {
+                    string messageText = update.InlineQuery!.Query;
+                    string id = update.InlineQuery!.Id;
+                    logger.LogInformation($"Received inline query with {id} and {messageText}");
+                    string result = botTextGenerator.GetSwastika(messageText);
+                    if (!string.IsNullOrWhiteSpace(result))
+                    {
+                        InlineQueryResult[] results = {
                     new InlineQueryResultArticle(
                         id: "1",
                         title: "Make swaston",
@@ -90,12 +91,18 @@ namespace SvsdBot
                         {
                             ParseMode = ParseMode.Html,
                         })
-                        {
-                            Description = "Make swaston from words",
-                        },
+                    {
+                        Description = "Make swaston from words",
+                    },
                 };
-                    await botClient.AnswerInlineQueryAsync(id, results, cancellationToken: cancellationToken);
+
+                        await botClient.AnswerInlineQueryAsync(id, results, cancellationToken: cancellationToken);
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                await HandleErrorAsync(botClient, ex, cancellationToken);
             }
         }
 
