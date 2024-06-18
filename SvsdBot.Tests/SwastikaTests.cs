@@ -108,5 +108,21 @@
             string generated = generator.GetSwastika(word);
             Assert.AreEqual(result, generated);
         }
+
+        [TestMethod]
+        public void EmodjiTest()
+        {
+            BotTextGenerator generator = new();
+            string emojis = "🇩🇪🇩🇪🇩🇪";
+            string result =
+                "🇩🇪⬜️🇩🇪🇩🇪🇩🇪\n" +
+                "🇩🇪⬜️🇩🇪⬜️⬜️\n" +
+                "🇩🇪🇩🇪🇩🇪🇩🇪🇩🇪\n" +
+                "⬜️⬜️🇩🇪⬜️🇩🇪\n" +
+                "🇩🇪🇩🇪🇩🇪⬜️🇩🇪";
+
+            string generated = generator.GetSwastika(emojis);
+            Assert.AreEqual(result, generated);
+        }
     }
 }
