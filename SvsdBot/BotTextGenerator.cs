@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Globalization;
+using System.Text;
 
 namespace SvsdBot
 {
@@ -18,7 +19,7 @@ namespace SvsdBot
         {
             word = word.Split(" ").Last();
             word = word.ToUpper();
-            var stringInfo = new System.Globalization.StringInfo(word);
+            var stringInfo = new StringInfo(word);
             int n = stringInfo.LengthInTextElements;
             if (n < 3)
             {
