@@ -18,7 +18,8 @@ namespace SvsdBot
         {
             word = word.Split(" ").Last();
             word = word.ToUpper();
-            int n = word.Length;
+            var stringInfo = new System.Globalization.StringInfo(word);
+            int n = stringInfo.LengthInTextElements;
             if (n < 3)
             {
                 return string.Empty;
@@ -31,49 +32,49 @@ namespace SvsdBot
             }
 
             int size = (2 * n) - 1;
-            char[,] swastika = new char[size, size];
+            string[,] swastika = new string[size, size];
 
             // Fill with spaces
             for (int i = 0; i < size; i++)
             {
                 for (int j = 0; j < size; j++)
                 {
-                    swastika[i, j] = ' ';
+                    swastika[i, j] = " ";
                 }
             }
 
             // Top-left to bottom-right
             for (int i = 0; i < n; i++)
             {
-                swastika[i, 0] = word[i];
-                swastika[size - i - 1, size - 1] = word[i];
+                swastika[i, 0] = word[i].ToString();
+                swastika[size - i - 1, size - 1] = word[i].ToString();
             }
 
             // Top-right to bottom-left
             for (int i = 0; i < n; i++)
             {
-                swastika[0, size - i - 1] = word[i];
-                swastika[size - 1, i] = word[i];
+                swastika[0, size - i - 1] = word[i].ToString();
+                swastika[size - 1, i] = word[i].ToString();
             }
 
             // Center horizontal line
             for (int i = n; i < size; i++)
             {
-                swastika[n - 1, i - 1] = word[i - n];
-                swastika[n - 1, size - i] = word[i - n];
+                swastika[n - 1, i - 1] = word[i - n].ToString();
+                swastika[n - 1, size - i] = word[i - n].ToString();
             }
 
             // Center vertical line
             for (int i = n; i < size; i++)
             {
-                swastika[i - 1, n - 1] = word[i - n];
-                swastika[size - i, n - 1] = word[i - n];
+                swastika[i - 1, n - 1] = word[i - n].ToString();
+                swastika[size - i, n - 1] = word[i - n].ToString();
             }
 
             return ConvertSwastikaToString(swastika);
         }
 
-        private static string ConvertSwastikaToString(char[,] swastika)
+        private static string ConvertSwastikaToString(string[,] swastika)
         {
             int size = swastika.GetLength(0);
             StringBuilder result = new ();
