@@ -36,7 +36,7 @@ namespace SvsdBot
                 n = CHARACTERS_LIMIT;
             }
 
-            stringInfo = new StringInfo(word);
+            stringInfo = new StringInfo(new StringInfo(word).ReverseStringInfo());
 
             int size = (2 * n) - 1;
             string[,] swastika = new string[size, size];
