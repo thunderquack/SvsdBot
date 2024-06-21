@@ -23,7 +23,7 @@ jobs:
 
     - name: Determine version
       run: |
-        dotnet gitversion /output buildserver /config GitVersion.yml
+        dotnet-gitversion /output buildserver /config GitVersion.yml
       env:
         PATH: ${{ runner.tool_cache }}/dotnet:$PATH
         
