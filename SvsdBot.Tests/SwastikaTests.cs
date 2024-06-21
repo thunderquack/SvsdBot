@@ -1,4 +1,6 @@
-﻿namespace SvsdBot.Tests
+﻿using System.Globalization;
+
+namespace SvsdBot.Tests
 {
     [TestClass]
     public class SwastikaTests
@@ -123,6 +125,14 @@
 
             string generated = generator.GetSwastika(emojis);
             Assert.AreEqual(result, generated);
+        }
+
+        [TestMethod]
+        public void StringInfoExtensionNullTest()
+        {
+            StringInfo stringInfo = null;
+            string reverse = stringInfo.ReverseStringInfo();
+            Assert.AreEqual(string.Empty, reverse);
         }
     }
 }
