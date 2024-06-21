@@ -26,11 +26,11 @@
             BotTextGenerator generator = new();
             string word = "Пук";
             string result =
-                "П КУП" + "\n" +
+                "К ПУК" + "\n" +
                 "У У" + "\n" +
-                "КУПУК" + "\n" +
+                "ПУКУП" + "\n" +
                 "  У У" + "\n" +
-                "ПУК П";
+                "КУП К";
             string generated = generator.GetSwastika(word);
             Assert.AreEqual(result, generated);
         }
