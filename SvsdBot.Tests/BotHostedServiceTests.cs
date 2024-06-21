@@ -157,5 +157,42 @@ namespace SvsdBot.Tests
                     It.Is<Func<It.IsAnyType, Exception, string>>((v, t) => true)),
                 Times.Once);
         }
+
+        [TestMethod]
+        public async Task HandleUpdateAsync_Should_Go_Normally()
+        {
+            // Arrange
+            var hostedService = new BotHostedService(mockBotConfig.Object, mockLogger.Object);
+            var update = new Update
+            {
+                InlineQuery = new InlineQuery()
+                {
+                    Query = "Sample query",
+                    Id = "Sample Id",
+                },
+            };
+            var cancellationToken = new CancellationToken();
+            var exception = new Exception("Test exception");
+
+            mockBotClient
+                .Setup(x => x.MakeRequestAsync(
+                    It.IsAny<AnswerInlineQueryRequest>(),
+                    It.IsAny<CancellationToken>()))
+                .Returns(Task.FromResult(true));
+
+            // Act
+            await hostedService.StartAsync(cancellationToken);
+            await hostedService.HandleUpdateAsync(mockBotClient.Object, update, cancellationToken);
+
+            // Assert
+            mockLogger.Verify(
+                x => x.Log(
+                    It.Is<LogLevel>(l => l == LogLevel.Error),
+                    It.IsAny<EventId>(),
+                    It.Is<It.IsAnyType>((v, t) => v.ToString().Contains("Error received from Telegram Bot")),
+                    It.IsAny<Exception>(),
+                    It.Is<Func<It.IsAnyType, Exception, string>>((v, t) => true)),
+                Times.Never);
+        }
     }
 }
