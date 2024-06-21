@@ -9,13 +9,13 @@
             BotTextGenerator generator = new();
             string word = "Жопа";
             string result =
-                "Ж  АПОЖ" + "\n" +
-                "О  П" + "\n" +
+                "А  ЖОПА" + "\n" +
                 "П  О" + "\n" +
-                "АПОЖОПА" + "\n" +
-                "   О  П" + "\n" +
+                "О  П" + "\n" +
+                "ЖОПАПОЖ" + "\n" +
                 "   П  О" + "\n" +
-                "ЖОПА  Ж";
+                "   О  П" + "\n" +
+                "АПОЖ  А";
             string generated = generator.GetSwastika(word);
             Assert.AreEqual(result, generated);
         }

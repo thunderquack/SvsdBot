@@ -20,12 +20,12 @@ namespace SvsdBot
                 return string.Empty;
             }
 
-            StringInfo stringInfo = new StringInfo(input.ToString());
-            int n = stringInfo.LengthInTextElements;
+            int n = input.LengthInTextElements;
             StringBuilder reversedString = new();
             for (int i = n; i > 0; i--)
             {
-                reversedString.Append(stringInfo.SubstringByTextElements(i - 1, 1));
+                string element = input.SubstringByTextElements(i - 1, 1);
+                reversedString.Append(element);
             }
 
             return reversedString.ToString();
