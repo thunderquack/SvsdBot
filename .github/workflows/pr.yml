@@ -18,6 +18,15 @@ jobs:
       with:
         dotnet-version: '8.x'
 
+    - name: Install GitVersion
+      run: dotnet tool install --global GitVersion.Tool
+
+    - name: Determine version
+      run: |
+        gitversion /output buildserver /config GitVersion.yml
+      env:
+        PATH: ${{ runner.tool_cache }}/dotnet:$PATH
+        
     - name: Restore dependencies
       run: dotnet restore
 
