@@ -2,7 +2,9 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Moq;
 using Telegram.Bot;
+using Telegram.Bot.Requests;
 using Telegram.Bot.Types;
+using Telegram.Bot.Types.InlineQueryResults;
 
 namespace SvsdBot.Tests
 {
@@ -107,6 +109,43 @@ namespace SvsdBot.Tests
 
             // Act
             await hostedService.HandleErrorAsync(mockBotClient.Object, exception, cancellationToken);
+
+            // Assert
+            mockLogger.Verify(
+                x => x.Log(
+                    It.Is<LogLevel>(l => l == LogLevel.Error),
+                    It.IsAny<EventId>(),
+                    It.Is<It.IsAnyType>((v, t) => v.ToString().Contains("Error received from Telegram Bot")),
+                    It.IsAny<Exception>(),
+                    It.Is<Func<It.IsAnyType, Exception, string>>((v, t) => true)),
+                Times.Once);
+        }
+
+        [TestMethod]
+        public async Task HandleUpdateAsync_ShouldCallHandleErrorAsync_OnException()
+        {
+            // Arrange
+            var hostedService = new BotHostedService(mockBotConfig.Object, mockLogger.Object);
+            var update = new Update
+            {
+                InlineQuery = new InlineQuery()
+                {
+                    Query = "Sample query",
+                    Id = "Sample Id",
+                },
+            };
+            var cancellationToken = new CancellationToken();
+            var exception = new Exception("Test exception");
+
+            mockBotClient
+                .Setup(x => x.MakeRequestAsync(
+                    It.IsAny<AnswerInlineQueryRequest>(),
+                    It.IsAny<CancellationToken>()))
+                .ThrowsAsync(exception);
+
+            // Act
+            await hostedService.StartAsync(cancellationToken);
+            await hostedService.HandleUpdateAsync(mockBotClient.Object, update, cancellationToken);
 
             // Assert
             mockLogger.Verify(
