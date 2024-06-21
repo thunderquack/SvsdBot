@@ -40,7 +40,6 @@ jobs:
 
     - name: Check coverage of new lines
       run: |
-        reportgenerator -reports:**/coverage.cobertura.xml -targetdir:coverage -reporttypes:HtmlSummary
         COVERAGE=$(grep -oP '(?<=<coverage line-rate=")\d\.\d+' coverage/Summary.xml | head -1)
         COVERAGE_PERCENT=$(echo "$COVERAGE * 100" | bc | xargs printf "%.0f")
         if [ $COVERAGE_PERCENT -lt 90 ]; then
