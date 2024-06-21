@@ -23,9 +23,6 @@ jobs:
     - name: Install GitVersion
       run: dotnet tool install --global GitVersion.Tool
 
-    - name: Restore dependencies
-      run: dotnet restore
-
     - name: Build
       run: dotnet build
 
