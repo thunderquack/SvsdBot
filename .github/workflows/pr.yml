@@ -21,10 +21,10 @@ jobs:
     - name: Install GitVersion
       run: dotnet tool install --global GitVersion.Tool
 
-    - name: Determine version
-      run: dotnet gitversion /config GitVersion.yml
-      env:
-        PATH: ${{ runner.tool_cache }}/dotnet:$PATH
+    #- name: Determine version
+    #  run: dotnet gitversion /config GitVersion.yml
+    #  env:
+    #    PATH: ${{ runner.tool_cache }}/dotnet:$PATH
         
     - name: Restore dependencies
       run: dotnet restore
