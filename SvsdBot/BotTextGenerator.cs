@@ -78,10 +78,10 @@ namespace SvsdBot
                 swastika[size - i, n - 1] = stringInfo.SubstringByTextElements(i - n, 1);
             }
 
-            return ConvertSwastikaToString(swastika);
+            return ConvertStringArrayToString(swastika);
         }
 
-        private static string ConvertSwastikaToString(string[,] swastika)
+        private static string ConvertStringArrayToString(string[,] swastika)
         {
             int size = swastika.GetLength(0);
             StringBuilder result = new();
