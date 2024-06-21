@@ -40,7 +40,7 @@ jobs:
 
     - name: Check coverage of new lines
       run: |
-        COVERAGE=$(grep -oP '(?<=<coverage line-rate=")\d\.\d+' coverage/Summary.xml | head -1)
+        COVERAGE=$(awk -F'[="]' '/<coverage line-rate=/{print $3; exit}' coverage/Summary.xml)
         COVERAGE_PERCENT=$(echo "$COVERAGE * 100" | bc | xargs printf "%.0f")
         if [ $COVERAGE_PERCENT -lt 90 ]; then
           echo "Code coverage is below 90%: $COVERAGE_PERCENT%"
