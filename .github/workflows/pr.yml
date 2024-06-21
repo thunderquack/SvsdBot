@@ -23,11 +23,6 @@ jobs:
     - name: Install GitVersion
       run: dotnet tool install --global GitVersion.Tool
 
-    #- name: Determine version
-    #  run: dotnet gitversion /config GitVersion.yml
-    #  env:
-    #    PATH: ${{ runner.tool_cache }}/dotnet:$PATH
-        
     - name: Restore dependencies
       run: dotnet restore
 
@@ -45,7 +40,6 @@ jobs:
 
     - name: Check coverage of new lines
       run: |
-        dotnet tool install --global dotnet-reportgenerator-globaltool
         reportgenerator -reports:**/coverage.cobertura.xml -targetdir:coverage -reporttypes:HtmlSummary
         COVERAGE=$(grep -oP '(?<=<coverage line-rate=")\d\.\d+' coverage/Summary.xml | head -1)
         COVERAGE_PERCENT=$(echo "$COVERAGE * 100" | bc | xargs printf "%.0f")
