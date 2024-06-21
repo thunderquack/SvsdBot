@@ -38,16 +38,18 @@ jobs:
     - name: Generate Code Coverage Report
       run: reportgenerator -reports:**/coverage.cobertura.xml -targetdir:coverage -reporttypes:Html
 
-#    - name: Check coverage of new lines
-#      run: |
-#        COVERAGE=$(awk -F'[="]' '/<coverage line-rate=/{print $3; exit}' coverage/Summary.xml)
-#        COVERAGE_PERCENT=$(echo "$COVERAGE * 100" | bc | xargs printf "%.0f")
-#        if [ $COVERAGE_PERCENT -lt 90 ]; then
-#          echo "Code coverage is below 90%: $COVERAGE_PERCENT%"
-#          exit 1
-#        fi
-#      env:
-#        PATH: ${{ runner.tool_cache }}/dotnet:$PATH
+    - name: Code Coverage Report
+      uses: irongut/CodeCoverageSummary@v1.3.0
+      with:
+        filename: coverage/**/coverage.cobertura.xml
+        badge: true
+        fail_below_min: true
+        format: markdown
+        hide_branch_rate: false
+        hide_complexity: true
+        indicators: true
+        output: both
+        thresholds: '80 90'
 
     - name: Upload coverage report
       uses: actions/upload-artifact@v2
